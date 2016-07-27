@@ -11,6 +11,12 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   uarango
+   uarango.graph
+
+.. automodule:: uarango.graph
+   :members:
+
 
 
 Indices and tables
