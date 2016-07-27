@@ -82,6 +82,8 @@ class Graph:
         return r.json()
 
     def list_edge_definitions(self):
+        """ List edge collections """
+        
         r = requests.get(self.url + '/_api/gharial/myGraph/edge')
         return r.json()
 
