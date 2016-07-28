@@ -71,20 +71,20 @@ class Graph:
         data = {
             "collection": collection_name
         }
-        r = requests.post(self.url + '/_api/gharial/myGraph/vertex',
+        r = requests.post(self.url + '/_api/gharial/' + self.graph_name + '/vertex',
                           data=json.dumps(data))
         return r.json()
 
     def remove_vertex_collection(self, collection_name):
         """ Remove vertex collection """
 
-        r = requests.delete(self.url + '/_api/gharial/myGraph/vertex/' + collection_name)
+        r = requests.delete(self.url + '/_api/gharial/' + self.graph_name + '/vertex/' + collection_name)
         return r.json()
 
     def list_edge_definitions(self):
         """ List edge collections """
-        
-        r = requests.get(self.url + '/_api/gharial/myGraph/edge')
+
+        r = requests.get(self.url + '/_api/gharial/' + self.graph_name + '/edge')
         return r.json()
 
     def add_edge_definition(self, collection_name, from_list, to_list):
@@ -100,7 +100,7 @@ class Graph:
             "from": from_list,
             "to": to_list
         }
-        r = requests.post(self.url + '/_api/gharial/myGraph/edge',
+        r = requests.post(self.url + '/_api/gharial/' + self.graph_name + '/edge',
                           data=json.dumps(data))
         return r.json()
 
@@ -117,14 +117,14 @@ class Graph:
             "from": from_list,
             "to": to_list
         }
-        r = requests.post(self.url + '/_api/gharial/myGraph/edge' + collection_name,
+        r = requests.post(self.url + '/_api/gharial/' + self.graph_name + '/edge' + collection_name,
                           data=json.dumps(data))
         return r.json()
 
     def remove_edge_definitino(self, collection_name):
         """ Remove edge definition """
 
-        r = requests.delete(self.url + '/_api/gharial/myGraph/edge/' + collection_name)
+        r = requests.delete(self.url + '/_api/gharial/' + self.graph_name + '/edge/' + collection_name)
         return r.json()
 
 
@@ -133,34 +133,34 @@ class Graph:
     def create_vertex(self, collection_name, data):
         """ Create a vertex """
 
-        r = requests.post(self.url + '/_api/gharial/myGraph/vertex/' + collection_name,
+        r = requests.post(self.url + '/_api/gharial/' + self.graph_name + '/vertex/' + collection_name,
                           data=json.dumps(data))
         return r.json()
 
     def get_vertex(self, collection_name, vertex_key):
         """ Get a vertex """
 
-        r = requests.get(self.url + '/_api/gharial/myGraph/vertex/' + collection_name + '/' + vertex_key)
+        r = requests.get(self.url + '/_api/gharial/' + self.graph_name + '/vertex/' + collection_name + '/' + vertex_key)
         return r.json()
 
     def modify_vertex(self, collection_name, vertex_key, data):
         """ Modify a vertex """
 
-        r = requests.patch(self.url + '/_api/gharial/myGraph/vertex/' + collection_name + '/' + vertex_key,
+        r = requests.patch(self.url + '/_api/gharial/' + self.graph_name + '/vertex/' + collection_name + '/' + vertex_key,
                            data=json.dumps(data))
         return r.json()
 
     def replace_vertex(self, collection_name, vertex_key, data):
         """ Replace a vertex """
 
-        r = requests.put(self.url + '/_api/gharial/myGraph/vertex/' + collection_name + '/' + vertex_key,
+        r = requests.put(self.url + '/_api/gharial/' + self.graph_name + '/vertex/' + collection_name + '/' + vertex_key,
                            data=json.dumps(data))
         return r.json()
 
     def remove_vertex(self, collection_name, vertex_key):
         """ Remove a vertex """
 
-        r = requests.delete(self.url + '/_api/gharial/myGraph/vertex/' + collection_name + '/' + vertex_key)
+        r = requests.delete(self.url + '/_api/gharial/' + self.graph_name + '/vertex/' + collection_name + '/' + vertex_key)
         return r.json()
 
 
@@ -169,32 +169,32 @@ class Graph:
     def create_edge(self, collection_name, data):
         """ Create an edge """
 
-        r = requests.post(self.url + '/_api/gharial/myGraph/edge/' + collection_name,
+        r = requests.post(self.url + '/_api/gharial/' + self.graph_name + '/edge/' + collection_name,
                           data=json.dumps(data))
         return r.json()
 
     def get_edge(self, collection_name, edge_key):
         """ Get a edge """
 
-        r = requests.get(self.url + '/_api/gharial/myGraph/edge/' + collection_name + '/' + edge_key)
+        r = requests.get(self.url + '/_api/gharial/' + self.graph_name + '/edge/' + collection_name + '/' + edge_key)
         return r.json()
 
     def modify_edge(self, collection_name, edge_key, data):
         """ Modify a edge """
 
-        r = requests.patch(self.url + '/_api/gharial/myGraph/edge/' + collection_name + '/' + edge_key,
+        r = requests.patch(self.url + '/_api/gharial/' + self.graph_name + '/edge/' + collection_name + '/' + edge_key,
                            data=json.dumps(data))
         return r.json()
 
     def replace_edge(self, collection_name, edge_key, data):
         """ Replace a edge """
 
-        r = requests.put(self.url + '/_api/gharial/myGraph/edge/' + collection_name + '/' + edge_key,
+        r = requests.put(self.url + '/_api/gharial/' + self.graph_name + '/edge/' + collection_name + '/' + edge_key,
                          data=json.dumps(data))
         return r.json()
 
     def remove_edge(self, collection_name, edge_key):
         """ Remove a edge """
 
-        r = requests.delete(self.url + '/_api/gharial/myGraph/edge/' + collection_name + '/' + edge_key)
+        r = requests.delete(self.url + '/_api/gharial/' + self.graph_name + '/edge/' + collection_name + '/' + edge_key)
         return r.json()
