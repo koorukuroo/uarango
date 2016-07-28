@@ -137,6 +137,13 @@ class Graph:
                           data=json.dumps(data))
         return r.json()
 
+    def create_vertex_key(self, collection_name, data):
+        """ Create a vertex and Get a vertex key"""
+
+        r = requests.post(self.url + '/_api/gharial/' + self.graph_name + '/vertex/' + collection_name,
+                          data=json.dumps(data))
+        return r.json()['vertex']['_key']
+
     def is_vertex(self, collection_name, vertex_key):
         """ Check a existence of vertex """
 
