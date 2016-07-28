@@ -23,7 +23,7 @@ class Graph:
         led = self.list_edge_definitions()
         temp = dict()
         if led.has_key('collections'):
-            for name in led:
+            for name in led['collections']:
                 result = requests.put(self.url + '/_api/collection/' + name + '/load').json()
                 if result.has_key('count'):
                     temp[name] = result['count']
