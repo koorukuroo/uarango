@@ -13,7 +13,7 @@ config = {
     'url': 'https://github.com/koorukuroo/uarango',
     'version': '0.0.2',
     'classifiers': ['Programming Language :: Python :: 2.7', 'Topic :: Database', 'Development Status :: 5 - Production/Stable'],
-    'install_requirements': ['nose', 'requests', 'json'],
+    'install_requirements': ['nose', 'requests', 'json', 'uuid'],
     'packages': ['uarango'],
     'scripts': [],
     'include_package_data': True,

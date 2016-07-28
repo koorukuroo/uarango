@@ -146,13 +146,14 @@ class Graph:
 
     def is_vertex(self, collection_name, vertex_key):
         """ Check a existence of vertex """
-
-        r = requests.get(
-            self.url + '/_api/gharial/' + self.graph_name + '/vertex/' + collection_name + '/' + vertex_key)
-        if r.json()['code'] == 200:
-            return True
+        value = self.get_vertex(collection_name, vertex_key)
+        if value.has_key('code'):
+            if value['code'] == 200:
+                return True
+            else:
+                return False
         else:
-            return False
+            return value
 
     def get_vertex(self, collection_name, vertex_key):
         """ Get a vertex """
@@ -186,11 +187,27 @@ class Graph:
         r = requests.delete(self.url + '/_api/gharial/' + self.graph_name + '/vertex/' + collection_name + '/' + vertex_key)
         return r.json()
 
+    def unicode2key(self, text):
+        """ Convert unicode to key string
+        """
+
+        import uuid
+        text = unicode(text)
+        text = ''.join(e for e in text if e.isalnum()) # remove special characters
+        key = str(uuid.uuid5(uuid.NAMESPACE_DNS, repr(text)))
+        return key
+
 
     """ Edges """
 
     def create_edge(self, collection_name, data):
-        """ Create an edge """
+        """ Create an edge
+        data = {
+          "type" : "test",
+          "_from" : "a/2781783",
+          "_to" : "b/2781736"
+        }
+        """
 
         r = requests.post(self.url + '/_api/gharial/' + self.graph_name + '/edge/' + collection_name,
                           data=json.dumps(data))
