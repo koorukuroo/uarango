@@ -20,6 +20,8 @@ class Graph:
     """ Info """
 
     def info_graph(self):
+        temps = []
+
         lvd = self.list_vertex_collections()
         temp = dict()
         if lvd.has_key('collections'):
@@ -27,7 +29,7 @@ class Graph:
                 result = requests.put(self.url + '/_api/collection/' + name + '/load').json()
                 if result.has_key('count'):
                     temp[name] = result['count']
-
+        temps.append(temp)
         led = self.list_edge_definitions()
         temp = dict()
         if led.has_key('collections'):
@@ -35,7 +37,9 @@ class Graph:
                 result = requests.put(self.url + '/_api/collection/' + name + '/load').json()
                 if result.has_key('count'):
                     temp[name] = result['count']
-        return temp
+        temps.append(temp)
+
+        return temps
 
 
     """ Management """
