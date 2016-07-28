@@ -19,13 +19,13 @@ class Graph:
 
     """ Management """
 
-    def list(self):
+    def list_graph(self):
         """ List all graphs """
 
         r = requests.get(self.url + '/_api/gharial')
         return r.json()
 
-    def create(self, collection_name, from_list, to_list):
+    def create_graph(self, collection_name, from_list, to_list):
         """ Create a graph """
 
         if type(from_list) != list:
@@ -47,13 +47,13 @@ class Graph:
                           data=json.dumps(data))
         return r.json()
 
-    def drop(self):
+    def drop_graph(self):
         """ Drop a graph """
 
         r = requests.delete(self.url + '/_api/gharial/' + self.graph_name)
         return r.json()
 
-    def get(self):
+    def get_graph(self):
         """ Get a graph """
 
         r = requests.get(self.url + '/_api/gharial/' + self.graph_name)
@@ -121,7 +121,7 @@ class Graph:
                           data=json.dumps(data))
         return r.json()
 
-    def remove_edge_definitino(self, collection_name):
+    def remove_edge_definition(self, collection_name):
         """ Remove edge definition """
 
         r = requests.delete(self.url + '/_api/gharial/' + self.graph_name + '/edge/' + collection_name)
@@ -136,6 +136,16 @@ class Graph:
         r = requests.post(self.url + '/_api/gharial/' + self.graph_name + '/vertex/' + collection_name,
                           data=json.dumps(data))
         return r.json()
+
+    def is_vertex(self, collection_name, vertex_key):
+        """ Check a existence of vertex """
+
+        r = requests.get(
+            self.url + '/_api/gharial/' + self.graph_name + '/vertex/' + collection_name + '/' + vertex_key)
+        if r['code'] == 200:
+            return True
+        else:
+            return False
 
     def get_vertex(self, collection_name, vertex_key):
         """ Get a vertex """
@@ -198,3 +208,6 @@ class Graph:
 
         r = requests.delete(self.url + '/_api/gharial/' + self.graph_name + '/edge/' + collection_name + '/' + edge_key)
         return r.json()
+
+
+    """ Traversal """
