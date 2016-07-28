@@ -20,6 +20,14 @@ class Graph:
     """ Info """
 
     def info_graph(self):
+        lvd = self.list_vertex_collections()
+        temp = dict()
+        if lvd.has_key('collections'):
+            for name in lvd['collections']:
+                result = requests.put(self.url + '/_api/collection/' + name + '/load').json()
+                if result.has_key('count'):
+                    temp[name] = result['count']
+
         led = self.list_edge_definitions()
         temp = dict()
         if led.has_key('collections'):
