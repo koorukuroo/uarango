@@ -15,6 +15,19 @@ class Graph:
     def __init__(self):
         self.url = 'http://localhost:8529'
         self.graph_name = 'graph' + str(random.randint(1, 1000))
+        print("Current graph_name : "+self.graph_name)
+
+    """ Info """
+
+    def info_graph(self):
+        led = self.list_edge_definitions()
+        temp = dict()
+        if led.has_key('collections'):
+            for name in led:
+                result = requests.put(self.url + '/_api/collection/' + name + '/load').json()
+                if result.has_key('count'):
+                    temp[name] = result['count']
+        return temp
 
 
     """ Management """
