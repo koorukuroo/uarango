@@ -153,6 +153,12 @@ class Graph:
         r = requests.get(self.url + '/_api/gharial/' + self.graph_name + '/vertex/' + collection_name + '/' + vertex_key)
         return r.json()
 
+    def get_vertex_key(self, collection_name, vertex_key):
+        """ Get a vertex key """
+
+        r = requests.get(self.url + '/_api/gharial/' + self.graph_name + '/vertex/' + collection_name + '/' + vertex_key)
+        return r.json()['vertex']['_key']
+
     def modify_vertex(self, collection_name, vertex_key, data):
         """ Modify a vertex """
 
