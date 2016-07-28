@@ -189,6 +189,7 @@ class Graph:
 
     def unicode2key(self, text):
         """ Convert unicode to key string
+        e.g., '한국어' to 'e3a38b24-e999-509d-958f-25f5b717c376'
         """
 
         import uuid
