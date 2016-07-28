@@ -91,9 +91,9 @@ class Graph:
         """ Add edge collection """
 
         if type(from_list) != list:
-            from_list = list(from_list)
+            from_list = [from_list]
         if type(to_list) != list:
-            to_list = list(to_list)
+            to_list = [to_list]
 
         data = {
             "collection": collection_name,
