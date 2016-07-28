@@ -142,7 +142,7 @@ class Graph:
 
         r = requests.get(
             self.url + '/_api/gharial/' + self.graph_name + '/vertex/' + collection_name + '/' + vertex_key)
-        if r['code'] == 200:
+        if r.json()['code'] == 200:
             return True
         else:
             return False
