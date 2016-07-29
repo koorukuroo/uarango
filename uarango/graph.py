@@ -228,8 +228,10 @@ class Graph:
 
     def create_edge(self, collection_name, data):
         """ Create an edge
+
+        Free style json body
         data = {
-          "type" : "test",
+          "_key" : "key1",
           "_from" : "a/2781783",
           "_to" : "b/2781736"
         }
@@ -267,3 +269,20 @@ class Graph:
 
 
     """ Traversal """
+
+    def traversal(self, startVertex, graph_name=1, direction='any', data=1):
+        """ Graph traversal """
+
+        if graph_name == 1:
+            graph_name = self.graph_name
+
+        if data == 1:
+            data = {
+                "startVertex": startVertex,
+                "graphName": graph_name,
+                "direction": direction,
+            }
+
+        r = requests.post(self.url + '/_api/traversal/',
+                          data=json.dumps(data))
+        return r.json()
