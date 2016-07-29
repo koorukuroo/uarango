@@ -240,6 +240,7 @@ class Graph:
         r = requests.post(self.url + '/_api/gharial/' + self.graph_name + '/edge/' + collection_name,
                           data=json.dumps(data))
         return r.json()
+        # if result['code'] == ''
 
     def get_edge(self, collection_name, edge_key):
         """ Get a edge """
