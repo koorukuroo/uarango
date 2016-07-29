@@ -286,3 +286,13 @@ class Graph:
         r = requests.post(self.url + '/_api/traversal/',
                           data=json.dumps(data))
         return r.json()
+
+    """ Documents """
+
+    def all_keys(self, collection_name):
+        data = {
+            "collection": collection_name
+        }
+        r = requests.put(self.url + '/_api/simple/all-keys',
+                         data=json.dumps(data))
+        r.json()
