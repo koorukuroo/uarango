@@ -24,6 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="uarango 0.0.1 documentation" href="index.html" />
+    <link rel="prev" title="uarango.graph module" href="" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
@@ -39,6 +40,9 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="#" title="uarango.graph module"
+             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">uarango 0.0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -66,15 +70,27 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="uarango.graph.Graph.create">
-<code class="descname">create</code><span class="sig-paren">(</span><em>collection_name</em>, <em>from_list</em>, <em>to_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.create" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a graph</p>
-</dd></dl>
+<dt id="uarango.graph.Graph.all_keys">
+<code class="descname">all_keys</code><span class="sig-paren">(</span><em>collection_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.all_keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.all_keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="uarango.graph.Graph.create_edge">
 <code class="descname">create_edge</code><span class="sig-paren">(</span><em>collection_name</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.create_edge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.create_edge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an edge</p>
+<p>Free style json body
+data = {</p>
+<blockquote>
+<div>&#8220;_key&#8221; : &#8220;key1&#8221;,
+&#8220;_from&#8221; : &#8220;a/2781783&#8221;,
+&#8220;_to&#8221; : &#8220;b/2781736&#8221;</div></blockquote>
+<p>}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="uarango.graph.Graph.create_graph">
+<code class="descname">create_graph</code><span class="sig-paren">(</span><em>collection_name</em>, <em>from_list</em>, <em>to_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.create_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.create_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a graph</p>
 </dd></dl>
 
 <dl class="method">
@@ -84,15 +100,15 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="uarango.graph.Graph.drop">
-<code class="descname">drop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.drop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.drop" title="Permalink to this definition">¶</a></dt>
-<dd><p>Drop a graph</p>
+<dt id="uarango.graph.Graph.create_vertex_key">
+<code class="descname">create_vertex_key</code><span class="sig-paren">(</span><em>collection_name</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.create_vertex_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.create_vertex_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a vertex and Get a vertex key</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="uarango.graph.Graph.get">
-<code class="descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a graph</p>
+<dt id="uarango.graph.Graph.drop_graph">
+<code class="descname">drop_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.drop_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.drop_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drop a graph</p>
 </dd></dl>
 
 <dl class="method">
@@ -102,21 +118,45 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="uarango.graph.Graph.get_graph">
+<code class="descname">get_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.get_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.get_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a graph</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="uarango.graph.Graph.get_vertex">
 <code class="descname">get_vertex</code><span class="sig-paren">(</span><em>collection_name</em>, <em>vertex_key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.get_vertex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.get_vertex" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a vertex</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="uarango.graph.Graph.list">
-<code class="descname">list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.list" title="Permalink to this definition">¶</a></dt>
-<dd><p>List all graphs</p>
+<dt id="uarango.graph.Graph.get_vertex_key">
+<code class="descname">get_vertex_key</code><span class="sig-paren">(</span><em>collection_name</em>, <em>vertex_key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.get_vertex_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.get_vertex_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a vertex key</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="uarango.graph.Graph.info_graph">
+<code class="descname">info_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.info_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.info_graph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="uarango.graph.Graph.is_vertex">
+<code class="descname">is_vertex</code><span class="sig-paren">(</span><em>collection_name</em>, <em>vertex_key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.is_vertex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.is_vertex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check a existence of vertex</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="uarango.graph.Graph.list_edge_definitions">
 <code class="descname">list_edge_definitions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.list_edge_definitions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.list_edge_definitions" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>List edge collections</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="uarango.graph.Graph.list_graph">
+<code class="descname">list_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.list_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.list_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all graphs</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="uarango.graph.Graph.list_vertex_collections">
@@ -143,8 +183,8 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="uarango.graph.Graph.remove_edge_definitino">
-<code class="descname">remove_edge_definitino</code><span class="sig-paren">(</span><em>collection_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.remove_edge_definitino"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.remove_edge_definitino" title="Permalink to this definition">¶</a></dt>
+<dt id="uarango.graph.Graph.remove_edge_definition">
+<code class="descname">remove_edge_definition</code><span class="sig-paren">(</span><em>collection_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.remove_edge_definition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.remove_edge_definition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove edge definition</p>
 </dd></dl>
 
@@ -178,6 +218,19 @@
 <dd><p>Replace a vertex</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="uarango.graph.Graph.traversal">
+<code class="descname">traversal</code><span class="sig-paren">(</span><em>startVertex</em>, <em>graph_name=1</em>, <em>direction='any'</em>, <em>data=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.traversal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.traversal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Graph traversal</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="uarango.graph.Graph.unicode2key">
+<code class="descname">unicode2key</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/uarango/graph.html#Graph.unicode2key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#uarango.graph.Graph.unicode2key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert unicode to key string
+e.g., &#8216;한국어&#8217; to &#8216;e3a38b24-e999-509d-958f-25f5b717c376&#8217;</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -188,6 +241,9 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href=""
+                        title="previous chapter">uarango.graph module</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">

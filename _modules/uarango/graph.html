@@ -68,23 +68,48 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;http://localhost:8529&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">=</span> <span class="s1">&#39;graph&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Current graph_name : &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span><span class="p">)</span>
 
+    <span class="sd">&quot;&quot;&quot; Info &quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="Graph.info_graph"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.info_graph">[docs]</a>    <span class="k">def</span> <span class="nf">info_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">temps</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">lvd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_vertex_collections</span><span class="p">()</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">lvd</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s1">&#39;collections&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">lvd</span><span class="p">[</span><span class="s1">&#39;collections&#39;</span><span class="p">]:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/collection/&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;/load&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">):</span>
+                    <span class="n">temp</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span>
+        <span class="n">temps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+        <span class="n">led</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_edge_definitions</span><span class="p">()</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">led</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s1">&#39;collections&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">led</span><span class="p">[</span><span class="s1">&#39;collections&#39;</span><span class="p">]:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/collection/&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;/load&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">):</span>
+                    <span class="n">temp</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">]</span>
+        <span class="n">temps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">temps</span>
+
+</div>
     <span class="sd">&quot;&quot;&quot; Management &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Graph.list"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Graph.list_graph"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.list_graph">[docs]</a>    <span class="k">def</span> <span class="nf">list_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; List all graphs &quot;&quot;&quot;</span>
 
         <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="Graph.create"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">from_list</span><span class="p">,</span> <span class="n">to_list</span><span class="p">):</span>
+<div class="viewcode-block" id="Graph.create_graph"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.create_graph">[docs]</a>    <span class="k">def</span> <span class="nf">create_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">from_list</span><span class="p">,</span> <span class="n">to_list</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create a graph &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">from_list</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">:</span>
-            <span class="n">from_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">from_list</span><span class="p">)</span>
+            <span class="n">from_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">from_list</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">to_list</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">:</span>
-            <span class="n">to_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">to_list</span><span class="p">)</span>
+            <span class="n">to_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_list</span><span class="p">]</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span><span class="p">,</span>
@@ -100,13 +125,13 @@
                           <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="Graph.drop"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.drop">[docs]</a>    <span class="k">def</span> <span class="nf">drop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Graph.drop_graph"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.drop_graph">[docs]</a>    <span class="k">def</span> <span class="nf">drop_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Drop a graph &quot;&quot;&quot;</span>
 
         <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="Graph.get"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Graph.get_graph"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.get_graph">[docs]</a>    <span class="k">def</span> <span class="nf">get_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get a graph &quot;&quot;&quot;</span>
 
         <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span><span class="p">)</span>
@@ -124,34 +149,36 @@
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;collection&quot;</span><span class="p">:</span> <span class="n">collection_name</span>
         <span class="p">}</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/vertex&#39;</span><span class="p">,</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/vertex&#39;</span><span class="p">,</span>
                           <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Graph.remove_vertex_collection"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.remove_vertex_collection">[docs]</a>    <span class="k">def</span> <span class="nf">remove_vertex_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Remove vertex collection &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/vertex/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/vertex/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Graph.list_edge_definitions"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.list_edge_definitions">[docs]</a>    <span class="k">def</span> <span class="nf">list_edge_definitions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/edge&#39;</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot; List edge collections &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/edge&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Graph.add_edge_definition"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.add_edge_definition">[docs]</a>    <span class="k">def</span> <span class="nf">add_edge_definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">from_list</span><span class="p">,</span> <span class="n">to_list</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Add edge collection &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">from_list</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">:</span>
-            <span class="n">from_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">from_list</span><span class="p">)</span>
+            <span class="n">from_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">from_list</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">to_list</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">:</span>
-            <span class="n">to_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">to_list</span><span class="p">)</span>
+            <span class="n">to_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">to_list</span><span class="p">]</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;collection&quot;</span><span class="p">:</span> <span class="n">collection_name</span><span class="p">,</span>
             <span class="s2">&quot;from&quot;</span><span class="p">:</span> <span class="n">from_list</span><span class="p">,</span>
             <span class="s2">&quot;to&quot;</span><span class="p">:</span> <span class="n">to_list</span>
         <span class="p">}</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/edge&#39;</span><span class="p">,</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/edge&#39;</span><span class="p">,</span>
                           <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </div>
@@ -168,14 +195,14 @@
             <span class="s2">&quot;from&quot;</span><span class="p">:</span> <span class="n">from_list</span><span class="p">,</span>
             <span class="s2">&quot;to&quot;</span><span class="p">:</span> <span class="n">to_list</span>
         <span class="p">}</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/edge&#39;</span> <span class="o">+</span> <span class="n">collection_name</span><span class="p">,</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/edge&#39;</span> <span class="o">+</span> <span class="n">collection_name</span><span class="p">,</span>
                           <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="Graph.remove_edge_definitino"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.remove_edge_definitino">[docs]</a>    <span class="k">def</span> <span class="nf">remove_edge_definitino</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">):</span>
+<div class="viewcode-block" id="Graph.remove_edge_definition"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.remove_edge_definition">[docs]</a>    <span class="k">def</span> <span class="nf">remove_edge_definition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Remove edge definition &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/edge/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/edge/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
 </div>
@@ -184,70 +211,144 @@
 <div class="viewcode-block" id="Graph.create_vertex"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.create_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">create_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create a vertex &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/vertex/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span><span class="p">,</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/vertex/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span><span class="p">,</span>
                           <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Graph.create_vertex_key"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.create_vertex_key">[docs]</a>    <span class="k">def</span> <span class="nf">create_vertex_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a vertex and Get a vertex key&quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/vertex/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span><span class="p">,</span>
+                          <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;vertex&#39;</span><span class="p">][</span><span class="s1">&#39;_key&#39;</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="Graph.is_vertex"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.is_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">is_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">vertex_key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Check a existence of vertex &quot;&quot;&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_vertex</span><span class="p">(</span><span class="n">collection_name</span><span class="p">,</span> <span class="n">vertex_key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="s1">&#39;code&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">value</span>
 </div>
 <div class="viewcode-block" id="Graph.get_vertex"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.get_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">get_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">vertex_key</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get a vertex &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/vertex/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">vertex_key</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/vertex/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">vertex_key</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Graph.get_vertex_key"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.get_vertex_key">[docs]</a>    <span class="k">def</span> <span class="nf">get_vertex_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">vertex_key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Get a vertex key &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/vertex/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">vertex_key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s1">&#39;vertex&#39;</span><span class="p">][</span><span class="s1">&#39;_key&#39;</span><span class="p">]</span>
 </div>
 <div class="viewcode-block" id="Graph.modify_vertex"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.modify_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">modify_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">vertex_key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Modify a vertex &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/vertex/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">vertex_key</span><span class="p">,</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/vertex/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">vertex_key</span><span class="p">,</span>
                            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Graph.replace_vertex"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.replace_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">replace_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">vertex_key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Replace a vertex &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/vertex/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">vertex_key</span><span class="p">,</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/vertex/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">vertex_key</span><span class="p">,</span>
                            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Graph.remove_vertex"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.remove_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">remove_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">vertex_key</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Remove a vertex &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/vertex/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">vertex_key</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/vertex/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">vertex_key</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Graph.unicode2key"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.unicode2key">[docs]</a>    <span class="k">def</span> <span class="nf">unicode2key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Convert unicode to key string</span>
+<span class="sd">        e.g., &#39;한국어&#39; to &#39;e3a38b24-e999-509d-958f-25f5b717c376&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="kn">import</span> <span class="nn">uuid</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">isalnum</span><span class="p">())</span> <span class="c1"># remove special characters</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid5</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">NAMESPACE_DNS</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">text</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">key</span>
 
 </div>
     <span class="sd">&quot;&quot;&quot; Edges &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Graph.create_edge"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.create_edge">[docs]</a>    <span class="k">def</span> <span class="nf">create_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Create an edge &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; Create an edge</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/edge/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span><span class="p">,</span>
+<span class="sd">        Free style json body</span>
+<span class="sd">        data = {</span>
+<span class="sd">          &quot;_key&quot; : &quot;key1&quot;,</span>
+<span class="sd">          &quot;_from&quot; : &quot;a/2781783&quot;,</span>
+<span class="sd">          &quot;_to&quot; : &quot;b/2781736&quot;</span>
+<span class="sd">        }</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/edge/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span><span class="p">,</span>
                           <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="c1"># if result[&#39;code&#39;] == &#39;&#39;</span>
 </div>
 <div class="viewcode-block" id="Graph.get_edge"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.get_edge">[docs]</a>    <span class="k">def</span> <span class="nf">get_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">edge_key</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get a edge &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/edge/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">edge_key</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/edge/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">edge_key</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Graph.modify_edge"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.modify_edge">[docs]</a>    <span class="k">def</span> <span class="nf">modify_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">edge_key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Modify a edge &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/edge/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">edge_key</span><span class="p">,</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/edge/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">edge_key</span><span class="p">,</span>
                            <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Graph.replace_edge"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.replace_edge">[docs]</a>    <span class="k">def</span> <span class="nf">replace_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">edge_key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Replace a edge &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/edge/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">edge_key</span><span class="p">,</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/edge/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">edge_key</span><span class="p">,</span>
                          <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Graph.remove_edge"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.remove_edge">[docs]</a>    <span class="k">def</span> <span class="nf">remove_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">,</span> <span class="n">edge_key</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Remove a edge &quot;&quot;&quot;</span>
 
-        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/myGraph/edge/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">edge_key</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/gharial/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span> <span class="o">+</span> <span class="s1">&#39;/edge/&#39;</span> <span class="o">+</span> <span class="n">collection_name</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">edge_key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+</div>
+    <span class="sd">&quot;&quot;&quot; Traversal &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Graph.traversal"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.traversal">[docs]</a>    <span class="k">def</span> <span class="nf">traversal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startVertex</span><span class="p">,</span> <span class="n">graph_name</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Graph traversal &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">graph_name</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">graph_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_name</span>
+
+        <span class="k">if</span> <span class="n">data</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;startVertex&quot;</span><span class="p">:</span> <span class="n">startVertex</span><span class="p">,</span>
+                <span class="s2">&quot;graphName&quot;</span><span class="p">:</span> <span class="n">graph_name</span><span class="p">,</span>
+                <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="n">direction</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/traversal/&#39;</span><span class="p">,</span>
+                          <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</div>
+    <span class="sd">&quot;&quot;&quot; Documents &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Graph.all_keys"><a class="viewcode-back" href="../../uarango.graph.html#uarango.graph.Graph.all_keys">[docs]</a>    <span class="k">def</span> <span class="nf">all_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection_name</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;collection&quot;</span><span class="p">:</span> <span class="n">collection_name</span>
+        <span class="p">}</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/_api/simple/all-keys&#39;</span><span class="p">,</span>
+                         <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span></div></div>
 </pre></div>
 
