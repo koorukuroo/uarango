@@ -295,4 +295,4 @@ class Graph:
         }
         r = requests.put(self.url + '/_api/simple/all-keys',
                          data=json.dumps(data))
-        r.json()
+        return r.json()
